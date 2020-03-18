@@ -13,10 +13,25 @@ INSERT INTO Song (Title, SongLength, ReleaseDate, GenreId, ArtistId, AlbumId) VA
 
 SELECT * From Song
 
-SELECT s.title, al.title, ar.ArtistName from song s
+SELECT s.title, al.title from song s
 Left Join Album al  on al.id = s.AlbumId
 Left Join Artist ar on s.ArtistId = ar.id
 WHERE al.title = 'AlbumFunTime'
 
-SELECT al.title from album al
-Left Join song s  on al.id = s.AlbumId
+SELECT al.title,  COUNT(s.id) as NumberofSongs from Album al
+left join Song s on s.AlbumId = al.Id
+group by al.Title
+
+SELECT ar.ArtistName,  COUNT(s.id) as NumberofSongs from Artist ar
+left join Song s on s.ArtistId = ar.Id
+group by ar.ArtistName
+
+SELECT ge.Label,  COUNT(s.id) as NumberofSongs from Genre ge
+left join Song s on s.GenreId = ge.Id
+group by ge.Label
+
+select title, AlbumLength from Album where AlbumLength = (select max(AlbumLength) from Album);
+
+select s.title, SongLength, al.Title from Song s
+left join Album al on s.AlbumId = al.Id
+where SongLength = (select max(SongLength) from Song)

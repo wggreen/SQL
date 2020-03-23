@@ -6,34 +6,40 @@ namespace DepartmentsEmployees
     {
         static void Main(string[] args)
         {
-            DepartmentRepository departmentRepo = new DepartmentRepository();
+            Console.Clear();
 
-            Console.WriteLine("Getting All Departments:");
-            Console.WriteLine();
-
-            System.Collections.Generic.List<Department> allDepartments = departmentRepo.GetAllDepartments();
-
-            foreach (Department dept in allDepartments)
+            while (true)
             {
-                Console.WriteLine($"{dept.Id} {dept.DeptName}");
+                Console.WriteLine("Manage your business");
+                Console.WriteLine("1. Manage Deparments");
+                Console.WriteLine("2. Manage Employees");
+                Console.WriteLine("3. Exit");
+
+                Console.WriteLine();
+                Console.WriteLine("Choose a menu option");
+                Console.Write("> ");
+
+                string option = Console.ReadLine();
+
+                if (option == "1")
+                {
+                    ManageDepartments.ChooseDepartmentAction();
+                }
+                else if (option == "2")
+                {
+                    ManageEmployees.ChooseEmployeeAction();
+                }
+                else if (option == "3")
+                {
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine($"Invalid option: {option}");
+                    Console.WriteLine($"");
+                    Console.ReadLine();
+                }
             }
-
-            Console.WriteLine("----------------------------");
-            Console.WriteLine("Getting Department with Id 1");
-
-            Department singleDepartment = departmentRepo.GetDepartmentById(1);
-
-            //Console.WriteLine($"{singleDepartment.Id} {singleDepartment.DeptName}");
-
-            //Department legalDept = new Department
-            //{
-            //    DeptName = "Legal"
-            //};
-
-            //departmentRepo.AddDepartment(legalDept);
-
-            //Console.WriteLine("-------------------------------");
-            //Console.WriteLine("Added the new Legal Department!");
         }
     }
 }

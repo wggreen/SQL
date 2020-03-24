@@ -32,7 +32,6 @@ namespace DepartmentsEmployees
                 Console.ReadLine();
                 Console.Clear();
                 break;
-
             }
 
 

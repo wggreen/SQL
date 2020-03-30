@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -28,7 +28,8 @@ namespace DogWalkerAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public async Task<IActionResult> Get(
+            [FromQuery] int? neighborhoodId)
         {
             using (SqlConnection conn = Connection)
             {
@@ -38,7 +39,15 @@ namespace DogWalkerAPI.Controllers
                     cmd.CommandText = @"
                         SELECT d.Id, d.DogName, d.DogOwnerId, d.Breed, d.Notes, o.DogOwnerName, o.DogOwnerAddress, o.NeighborhoodId, o.Phone, n.NeighborhoodName FROM Dog d
                         LEFT JOIN DogOwner o ON d.DogOwnerId = o.Id
-                        LEFT JOIN Neighborhood n ON o.NeighborhoodId = n.Id";
+                        LEFT JOIN Neighborhood n ON o.NeighborhoodId = n.Id
+                        WHERE 1=1";
+
+                    if (neighborhoodId != null)
+                    {
+                        cmd.CommandText += " AND NeighborhoodId LIKE @neighborhoodId";
+                        cmd.Parameters.Add(new SqlParameter("@neighborhoodId", neighborhoodId));
+                    }
+
                     SqlDataReader reader = cmd.ExecuteReader();
                     List<Dog> dogs = new List<Dog>();
 
